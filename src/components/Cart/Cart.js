@@ -1,8 +1,15 @@
 import React from 'react';
+import "./Cart.css"
 
 const Cart = (props) => {
     const cart = props.cart;
-    const total = cart.reduce((total, pro) => total + pro.price, 0);
+    // console.log(cart)
+    const total = cart.reduce((total, pro) => {
+        // if (pro.quantity === undefined) return total + pro.price;
+        return total + (pro.price * pro.quantity);
+
+    }, 0);
+
     let shipping = 0;
     if (total > 35) {
         shipping = 0;
@@ -13,6 +20,7 @@ const Cart = (props) => {
     else if (total > 0) {
         shipping = 12.99
     }
+    // console.log(shipping)
     const tax = Math.round(total / 10);
     const grandTotal = (total + tax + Number(shipping)).toFixed(2)
 
@@ -27,10 +35,12 @@ const Cart = (props) => {
                 <p><small>Total before tax:{total.toFixed(2)}	</small></p>
                 <p><small>Estimated Tax:{tax}	</small></p>
                 <h3>Total:{grandTotal} </h3>
+                {
+                    props.children
+                }
             </div>
-            <div className="cart-price">
-                {/* <small>{cart[cart.length - 1]}</small> */}
-            </div>
+
+
         </div>
     );
 };
